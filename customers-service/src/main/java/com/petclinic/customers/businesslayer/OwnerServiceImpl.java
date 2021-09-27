@@ -110,8 +110,8 @@ public class OwnerServiceImpl implements OwnerService {
      */
     @Override
     public void deleteOwner(int Id) {
+        /*
 
-    /*
         if (repository.findById(Id).isPresent())
         {
             repository.deleteById(Id);
@@ -132,9 +132,8 @@ public class OwnerServiceImpl implements OwnerService {
         {
             LOG.debug("ERROR WITH ID: " + Id);
         }
+        */
 
-
-    */
         repository.findById(Id).ifPresent(o -> repository.delete(o));
         LOG.debug("User with ID: " + Id + " has been deleted successfully.");
 

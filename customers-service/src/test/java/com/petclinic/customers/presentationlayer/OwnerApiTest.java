@@ -61,6 +61,7 @@ class OwnerAPITest {
      * ------------------------ FIND_BY_ID_OWNER_API_TEST ------------------------
      * Test an HTTP Get Request
      */
+
     /*
     @Test
     void findByOwnerId_API_TEST() throws Exception {
@@ -72,7 +73,7 @@ class OwnerAPITest {
         mvc.perform(get("/owners/5").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.id").value(5))
                 .andExpect(jsonPath("$.first.name").value("John"))
                 .andExpect(jsonPath("$.last.name").value("Wick"))
                 .andExpect(jsonPath("$.address").value("56 John St."))
