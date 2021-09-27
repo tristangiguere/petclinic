@@ -42,15 +42,28 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public Optional<Owner> findByOwnerId(int Id) {
         try {
-            //Search owner in database with the given id
-            Optional<Owner> owner = repository.findById(Id);
-            LOG.debug("Owner with ID: " + Id + " has been found");
-            return owner;
+            /*
+            if (repository.findById(Id).isPresent()) {
+                //Search owner in database with the given id
+
+             */
+                Optional<Owner> owner = repository.findById(Id);
+                LOG.debug("Owner with ID: " + Id + " has been found");
+                return owner;
+                /*
+            }
+
+            else
+            {
+                return null;
+            }
+
+         */
         }
         catch (Exception e)
         {
             // Exception if owner not found
-            throw new NotFoundException("User is not found!");
+            throw new NotFoundException("Owner is not found!");
         }
     }
 
@@ -71,8 +84,6 @@ public class OwnerServiceImpl implements OwnerService {
      * This method is used to search a user in the database based on the information he entered
      * Is used by the login system
      */
-
-    
     /*
     @Override
     public Optional<Owner> findOwnerLogin(String username, String password) {
@@ -111,17 +122,22 @@ public class OwnerServiceImpl implements OwnerService {
     @Override
     public void deleteOwner(int Id) {
         /*
-
-        if (repository.findById(Id).isPresent())
-        {
-            repository.deleteById(Id);
+        try {
+            if (repository.findById(Id).isPresent()) {
+                repository.deleteById(Id);
+                LOG.debug("User with ID: " + Id + " has been deleted successfully.");
+            } else
+            {
+                LOG.debug("Error has occured");
+            }
         }
-        else
+        catch (Exception e)
         {
             throw new NotFoundException("Tried to delete ID: " + Id + " but was not found");
         }
 
 
+        /*
         if (repository.findById(Id).isPresent())
         {
             Optional<Owner> owner = repository.findById(Id);
@@ -134,8 +150,11 @@ public class OwnerServiceImpl implements OwnerService {
         }
         */
 
+
         repository.findById(Id).ifPresent(o -> repository.delete(o));
         LOG.debug("User with ID: " + Id + " has been deleted successfully.");
+
+
 
 
 

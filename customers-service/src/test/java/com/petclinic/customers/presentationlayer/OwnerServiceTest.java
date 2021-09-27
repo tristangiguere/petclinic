@@ -88,6 +88,8 @@ public class OwnerServiceTest {
 
         //Arrange
         int OwnerId = 1;
+        Owner ownerTest = new Owner(OwnerId, "Brian", "Smith", "940 Rue des Oiseaux", "Montreal", "1111111111");
+        when(ownerRepository.findById(OwnerId)).thenReturn(Optional.of(ownerTest));
 
         //Act
         ownerService.deleteOwner(OwnerId);

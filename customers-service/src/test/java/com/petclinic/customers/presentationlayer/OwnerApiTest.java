@@ -62,7 +62,7 @@ class OwnerAPITest {
      * Test an HTTP Get Request
      */
 
-    /*
+/*
     @Test
     void findByOwnerId_API_TEST() throws Exception {
 
@@ -80,7 +80,7 @@ class OwnerAPITest {
                 .andExpect(jsonPath("$.city").value("Amsterdam"))
                 .andExpect(jsonPath("$.telephone").value("9999999999"));
     }
-    */
+*/
     /**
      * ------------------------ DELETE_OWNER_API_TEST ------------------------
      * Test an HTTP Delete Request
