@@ -1,8 +1,5 @@
 package com.petclinic.vets.datalayer;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -10,8 +7,6 @@ import org.springframework.core.style.ToStringCreator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -30,38 +25,32 @@ import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "vets")
-@NoArgsConstructor
-@AllArgsConstructor
 public class Vet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @Column(name = "vet_id")
-    @NotNull
-    @UniqueElements(groups = Vet.class)
     private Integer vetId;
 
     @Column(name = "first_name")
-    @NotEmpty(message = "Please enter first name")
+    @NotEmpty
     private String firstName;
 
     @Column(name = "last_name")
-    @NotEmpty(message = "Please enter last name")
+    @NotEmpty
     private String lastName;
 
     @Column(name = "email")
-    @NotEmpty(message = "Please enter email")
+    @NotEmpty
     private String email;
 
     @Column(name = "phone_number")
-    @NotEmpty(message = "Please enter phoneNumber")
+    @NotEmpty
     private String phoneNumber;
 
     @Column(name = "resume")
-
 
     private String resume;
 
@@ -69,7 +58,6 @@ public class Vet {
     private String workday;
 
     @Column(name = "is_active")
-
 
     private Integer isActive;
 
@@ -97,16 +85,9 @@ public class Vet {
         this.email = verifyEmail(email);
     }
 
-    public String getPostNumber()
-    {
-        String postNumber = getPhoneNumber().replaceAll("\\(\\d{3}\\)-\\d{3}-\\d{4}", "");
-        return postNumber;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = verifyPhoneNumber(phoneNumber);

@@ -15,7 +15,7 @@ angular.module('vetForm')
         }
 
         self.submitVetForm = function () {
-            var id = self.vet.vetId;
+            var id = self.vet.id;
             var req;
             if (id) {
                 req = $http.put("api/gateway/vets" + id, self.vet);
