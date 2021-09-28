@@ -2,7 +2,6 @@ package com.petclinic.customers.presentationlayer;
 
 import com.petclinic.customers.datalayer.*;
 import io.micrometer.core.annotation.Timed;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +19,16 @@ import java.util.Optional;
 
 @RestController
 @Timed("petclinic.pet")
-@RequiredArgsConstructor
 @Slf4j
 class PetResource {
 
     private final PetRepository petRepository;
     private final OwnerRepository ownerRepository;
+
+    PetResource(PetRepository petRepository, OwnerRepository ownerRepository) {
+        this.petRepository = petRepository;
+        this.ownerRepository = ownerRepository;
+    }
 
 
     @GetMapping("/petTypes")
