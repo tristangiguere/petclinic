@@ -40,4 +40,12 @@ public class UserServiceImpl implements UserService{
         return userRepo.save(user);
 
     }
+
+    @Override
+    public User emailReset(long id, String email) throws NotFoundException {
+        log.info("id={}", id);
+        User user = userRepo.findById(id).orElseThrow(() -> new NotFoundException("No user for id:" + id));
+        user.setEmail(email);
+        return userRepo.save(user);
+    }
 }

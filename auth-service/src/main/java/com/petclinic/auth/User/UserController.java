@@ -23,9 +23,6 @@ import javax.validation.Valid;
 public class UserController {
 
 
-    private final UserRepo userRepo;
-    private final UserServiceImpl userServ;
-    private final UserMapper userMapper;
     private final UserService userService;
 
 
@@ -41,17 +38,17 @@ public class UserController {
         return saved;
     }
 
-    @PutMapping("/{id}")
-    public void passwordReset(@PathVariable long id,  @RequestBody String pwd){
+    @PutMapping("/password_verification/{id}")
+    public void passwordReset(@PathVariable long id,  @RequestBody String pwd) throws NotFoundException {
 
-
-        log.info("id={}", id);
-        try {
-            userServ.passwordReset(id,pwd);
-        } catch (NotFoundException e) {
-            log.info("No user with id {}. Ignoring", id);
-            return;
-        }
+        userService.passwordReset(id,pwd);
         log.info("Password for User with id {}, reset", id);
+    }
+
+    @PutMapping("/email_verification/{id}")
+    public void emailReset(@PathVariable long id,  @RequestBody String email) throws NotFoundException {
+
+        log.info("email {} for User with id {}, reset", email, id);
+        userService.emailReset(id, email);
     }
 }

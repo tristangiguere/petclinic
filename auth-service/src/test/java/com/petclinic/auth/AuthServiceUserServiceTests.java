@@ -7,6 +7,7 @@ import com.petclinic.auth.Role.RoleRepo;
 import com.petclinic.auth.User.*;
 import javassist.NotFoundException;
 import lombok.SneakyThrows;
+import org.aspectj.weaver.ast.Not;
 import org.assertj.core.internal.bytebuddy.implementation.bytecode.Throw;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,10 +49,6 @@ public class AuthServiceUserServiceTests {
 
     @Autowired
     private UserService userService;
-
-
-    private UserController userController;
-    private final UserIDLessDTO ID_LESS_USER = new UserIDLessDTO();
 
     @BeforeEach
     void setup() {
@@ -101,5 +98,35 @@ public class AuthServiceUserServiceTests {
         User userMap = userMapper.idLessDTOToModel(userIDLessDTO);
         User saved = userRepo.save(userMap);
         assertThrows(DuplicateKeyException.class, () -> userService.createUser(userIDLessDTO));
+    }
+
+    @Test
+    @DisplayName("reset the email and succeed")
+    void test_user_email_verification() throws NotFoundException {
+        String email = "email@change.com";
+        UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
+        User userModel = userMapper.idLessDTOToModel(userIDLessDTO);
+        User saved = userRepo.save(userModel);
+
+        User user = userService.emailReset(saved.getId(), email);
+
+        Optional<User> find = userRepo.findById(user.getId());
+        assertTrue(find.isPresent());
+        assertEquals(email, user.getEmail());
+
+    }
+
+    @Test
+    @DisplayName("reset the email and fail")
+    void test_user_email_verification_fail(){
+        String email = "email@change.com";
+        int randomID = 10000;
+        UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
+        User userModel = userMapper.idLessDTOToModel(userIDLessDTO);
+        User saved = userRepo.save(userModel);
+
+        assertNotEquals(randomID, saved.getId());
+        assertThrows(NotFoundException.class, () -> userService.emailReset(randomID, email ));
+
     }
 }
