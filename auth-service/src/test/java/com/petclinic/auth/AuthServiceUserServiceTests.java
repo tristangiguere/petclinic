@@ -38,7 +38,9 @@ public class AuthServiceUserServiceTests {
     final String
             USER = "user",
             PASS = "pas$word123",
-            EMAIL = "email@gmail.com";
+            EMAIL = "email@gmail.com",
+            BADPASS = "123";
+
 
     @Autowired
     private UserRepo userRepo;
@@ -102,4 +104,21 @@ public class AuthServiceUserServiceTests {
         User saved = userRepo.save(userMap);
         assertThrows(DuplicateKeyException.class, () -> userService.createUser(userIDLessDTO));
     }
+
+    @Test
+    void test_verify_user_password_failure(){
+        UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
+        User userMap = userMapper.idLessDTOToModel(userIDLessDTO);
+        UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, BADPASS);
+        assertFalse(userService.verifyPassword(userMap, loginUser));
+    }
+
+    @Test
+    void test_verify_user_password_success(){
+        UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
+        User userMap = userMapper.idLessDTOToModel(userIDLessDTO);
+        UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
+        assertTrue(userService.verifyPassword(userMap, loginUser));
+    }
+
 }

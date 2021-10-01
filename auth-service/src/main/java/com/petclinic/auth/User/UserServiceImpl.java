@@ -16,8 +16,30 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
+    private final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepo userRepo;
     private final UserMapper userMapper;
+
+
+
+    @Override
+    public User getUserByEmail(String email) throws NotFoundException {
+//        UserIDLessUsernameLessDTO user = userRepo.findUserByEmail(email);
+//        User response = userMapper.idLessUsernameLessToModel(user);
+        if (userRepo.findByEmail(email) == null){
+            throw new NotFoundException("No account found for email: " + email);
+        }
+        else {
+            User user = userRepo.findByEmail(email);
+            LOG.debug("find user by email: " + user.getEmail());
+            return user;
+        }
+    }
+
+    @Override
+    public boolean verifyPassword(User user, UserIDLessUsernameLessDTO loginUser) {
+        return user.getPassword().equals(loginUser.getPassword());
+    }
 
     @Override
     public User createUser(@Valid UserIDLessDTO userIDLessDTO) {

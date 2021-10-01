@@ -54,4 +54,11 @@ public class UserController {
         }
         log.info("Password for User with id {}, reset", id);
     }
+
+    @GetMapping
+     public Boolean verifyUser (@RequestBody UserIDLessUsernameLessDTO loginUser) throws NotFoundException{
+
+        final User user = userService.getUserByEmail(loginUser.getEmail());
+        return userService.verifyPassword(user, loginUser);
+    }
 }

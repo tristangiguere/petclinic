@@ -13,11 +13,13 @@ import javax.validation.constraints.NotEmpty;
 @Builder(toBuilder = true)
 public class UserIDLessUsernameLessDTO {
 
-    @PasswordStrengthCheck
-    private String password;
 
     @NotEmpty
     @Email(message = "Email must be valid")
     @Column(unique = true)
     private String email;
+
+    @PasswordStrengthCheck
+    private String password;
+
 }
