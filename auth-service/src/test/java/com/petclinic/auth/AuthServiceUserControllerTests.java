@@ -4,10 +4,7 @@ import com.petclinic.auth.Role.Role;
 import com.petclinic.auth.Role.RoleController;
 import com.petclinic.auth.Role.RoleIDLessDTO;
 import com.petclinic.auth.Role.RoleRepo;
-import com.petclinic.auth.User.User;
-import com.petclinic.auth.User.UserController;
-import com.petclinic.auth.User.UserIDLessDTO;
-import com.petclinic.auth.User.UserRepo;
+import com.petclinic.auth.User.*;
 import javassist.NotFoundException;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,7 +44,8 @@ public class AuthServiceUserControllerTests {
     final String
             USER = "user",
             PASS = "Pas$word123",
-            EMAIL = "email@gmail.com";
+            EMAIL = "email@gmail.com",
+            BADEMAIL = "blabla";
 
 
     @BeforeEach
@@ -61,6 +59,7 @@ public class AuthServiceUserControllerTests {
 
     @Autowired
     private UserRepo userRepo;
+    private UserMapper userMap;
 
     @Autowired
     private UserController userController;
@@ -123,6 +122,14 @@ public class AuthServiceUserControllerTests {
 
 
     }
-
-
+//    @Test
+//    void verifyUser_true () throws NotFoundException {
+//        UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
+//        assertTrue(userController.verifyUser(loginUser));
+//    }
+    @Test
+    void verifyUser_false (){
+        UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(BADEMAIL, PASS);
+        assertThrows(NotFoundException.class, () -> userController.verifyUser(loginUser));
+}
 }

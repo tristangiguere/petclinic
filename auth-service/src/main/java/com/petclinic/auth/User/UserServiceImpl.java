@@ -24,8 +24,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUserByEmail(String email) throws NotFoundException {
-//        UserIDLessUsernameLessDTO user = userRepo.findUserByEmail(email);
-//        User response = userMapper.idLessUsernameLessToModel(user);
+
         if (userRepo.findByEmail(email) == null){
             throw new NotFoundException("No account found for email: " + email);
         }

@@ -1,13 +1,9 @@
 package com.petclinic.auth;
 
-import com.petclinic.auth.Role.Role;
-import com.petclinic.auth.Role.RoleIDLessDTO;
-import com.petclinic.auth.Role.RoleMapper;
-import com.petclinic.auth.Role.RoleRepo;
+
 import com.petclinic.auth.User.*;
 import javassist.NotFoundException;
 import lombok.SneakyThrows;
-import org.assertj.core.internal.bytebuddy.implementation.bytecode.Throw;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,17 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.ActiveProfiles;
-
-import javax.validation.ConstraintViolationException;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
-
-import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,7 +25,8 @@ public class AuthServiceUserServiceTests {
             USER = "user",
             PASS = "pas$word123",
             EMAIL = "email@gmail.com",
-            BADPASS = "123";
+            BADPASS = "123",
+            BADEMAIL = null;
 
 
     @Autowired
@@ -120,5 +107,21 @@ public class AuthServiceUserServiceTests {
         UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
         assertTrue(userService.verifyPassword(userMap, loginUser));
     }
+
+    @Test
+    void verify_email_failure() {
+        UserIDLessDTO userIDLessDTO = new UserIDLessDTO (USER, PASS, EMAIL);
+        User user = userMapper.idLessDTOToModel(userIDLessDTO);
+        assertThrows(NotFoundException.class, () -> userService.getUserByEmail(BADEMAIL));
+    }
+
+//    @Test
+//    void verify_email_success() throws NotFoundException {
+//
+//            UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
+//            UserIDLessDTO userIDLessDTO = new UserIDLessDTO (USER, PASS, EMAIL);
+//            User user = userMapper.idLessDTOToModel(userIDLessDTO);
+//            assertEquals(user, userService.getUserByEmail(loginUser.getEmail()));
+//    }
 
 }

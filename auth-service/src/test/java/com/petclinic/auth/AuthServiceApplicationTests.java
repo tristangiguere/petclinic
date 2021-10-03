@@ -5,10 +5,7 @@ import com.petclinic.auth.Role.Role;
 import com.petclinic.auth.Role.RoleIDLessDTO;
 import com.petclinic.auth.Role.RoleMapper;
 import com.petclinic.auth.Role.RoleRepo;
-import com.petclinic.auth.User.User;
-import com.petclinic.auth.User.UserIDLessDTO;
-import com.petclinic.auth.User.UserMapper;
-import com.petclinic.auth.User.UserRepo;
+import com.petclinic.auth.User.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,6 +57,8 @@ class AuthServiceApplicationTests {
 	private final RoleIDLessDTO ID_LESS_USER_ROLE = new RoleIDLessDTO("user");
 
 	private final UserIDLessDTO ID_LESS_USER_USER = new UserIDLessDTO("usernameTest", "passwordTest", "emailTest");
+
+	private final UserIDLessUsernameLessDTO ID_LESS_USER_LESS_USER = new UserIDLessUsernameLessDTO("emailTest", "passwordTest");
 
 	@BeforeEach
 	void setup() {
@@ -296,6 +295,45 @@ class AuthServiceApplicationTests {
 		assertEquals(USER, userIDLessDTO.getUsername());
 		assertEquals(PASS, userIDLessDTO.getPassword());
 		assertEquals(EMAIL, userIDLessDTO.getEmail());
+	}
+
+	@Test
+	@DisplayName("Submit login form through constructor of UserIDLessUsernameLessDTO")
+	void submit_form_with_constructor_without_id_without_username() {
+
+		UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
+		assertEquals(EMAIL, loginUser.getEmail());
+		assertEquals(PASS, loginUser.getPassword());
+	}
+
+	@Test
+	@DisplayName("User setters")
+	void user_id_less_username_less_dto_setters() {
+
+		final UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO();
+		loginUser.setEmail(EMAIL);
+		loginUser.setPassword(PASS);
+
+		assertEquals(EMAIL, loginUser.getEmail());
+		assertEquals(PASS, loginUser.getPassword());
+	}
+
+	@Test
+	@DisplayName("User dto builder")
+	void login_user_dto_builder() {
+		final UserIDLessUsernameLessDTO loginUser = UserIDLessUsernameLessDTO.builder()
+				.email(EMAIL)
+				.password(PASS)
+				.build();
+
+		assertEquals(
+				format(
+						"UserIDLessUsernameLessDTO.UserIDLessUsernameLessDTOBuilder(email=%s, password=%s)",
+						loginUser.getEmail(), loginUser.getPassword()),
+				loginUser.toBuilder().toString());
+
+		assertEquals(EMAIL, loginUser.getEmail());
+		assertEquals(PASS, loginUser.getPassword());
 	}
 
 
