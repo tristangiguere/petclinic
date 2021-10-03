@@ -24,12 +24,15 @@ public class User {
     private long id;
 
     @NotEmpty
+    @Column(name = "username", nullable = false, length = 20)
     private String username;
 
     @NotEmpty
+    @Column(nullable = false, length = 64)
     private String password;
 
     @NotEmpty
+    @Column(nullable = false, unique = true, length = 45)
     @Email(message = "Email must be valid")
     private String email;
 
