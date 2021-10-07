@@ -1,4 +1,4 @@
-package com.petclinic.auth;
+package com.petclinic.auth.User;
 
 
 import com.petclinic.auth.User.*;
@@ -38,10 +38,6 @@ public class AuthServiceUserServiceTests {
     @Autowired
     private UserService userService;
 
-
-    private UserController userController;
-    private final UserIDLessDTO ID_LESS_USER = new UserIDLessDTO();
-
     @BeforeEach
     void setup() {
         userRepo.deleteAllInBatch();
@@ -51,6 +47,8 @@ public class AuthServiceUserServiceTests {
     @DisplayName("Create new user")
     void create_new_user() {
         UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
+
+
         final User createdUser = userService.createUser(userIDLessDTO);
         assertEquals(createdUser.getUsername(), userIDLessDTO.getUsername());
         assertEquals(createdUser.getPassword(), userIDLessDTO.getPassword());
@@ -76,7 +74,6 @@ public class AuthServiceUserServiceTests {
     @DisplayName("Reset password, passed wrong ID")
     void test_user_password_reset_ID() {
 
-        final String CHANGE = "change";
         final User u = new User(USER, PASS, EMAIL);
         userRepo.save(u);
 
@@ -88,7 +85,7 @@ public class AuthServiceUserServiceTests {
     void create_new_user_with_same_email() {
         UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
         User userMap = userMapper.idLessDTOToModel(userIDLessDTO);
-        User saved = userRepo.save(userMap);
+        userRepo.save(userMap);
         assertThrows(DuplicateKeyException.class, () -> userService.createUser(userIDLessDTO));
     }
 
