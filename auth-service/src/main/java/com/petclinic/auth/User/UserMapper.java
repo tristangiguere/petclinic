@@ -13,12 +13,11 @@ public interface UserMapper {
     })
     User idLessDTOToModel(UserIDLessDTO dto);
 
-//    @Mappings({
-//            @Mapping(target = "id", ignore = true),
-//            @Mapping(target = "username", ignore = true),
-//            @Mapping(target = "roles", ignore = true)
-//    })
-//    User idLessUsernameLessToModel(UserIDLessUsernameLessDTO userIDLessUsernameLessDTO);
+    @Mappings({
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "username", ignore = true),
+            @Mapping(target = "roles", ignore = true)
+    })
+    User idLessUsernameLessToModel(UserIDLessUsernameLessDTO userIDLessUsernameLessDTO);
 
-//    UserIDLessUsernameLessDTO userToDTO (User user);
 }

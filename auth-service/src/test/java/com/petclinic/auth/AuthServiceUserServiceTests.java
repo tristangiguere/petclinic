@@ -93,6 +93,7 @@ public class AuthServiceUserServiceTests {
     }
 
     @Test
+    @DisplayName("Verify user's password")
     void test_verify_user_password_failure(){
         UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
         User userMap = userMapper.idLessDTOToModel(userIDLessDTO);
@@ -101,6 +102,7 @@ public class AuthServiceUserServiceTests {
     }
 
     @Test
+    @DisplayName("Verify user's wrong password")
     void test_verify_user_password_success(){
         UserIDLessDTO userIDLessDTO = new UserIDLessDTO(USER, PASS, EMAIL);
         User userMap = userMapper.idLessDTOToModel(userIDLessDTO);
@@ -109,19 +111,11 @@ public class AuthServiceUserServiceTests {
     }
 
     @Test
+    @DisplayName("Verify email that does not exist")
     void verify_email_failure() {
         UserIDLessDTO userIDLessDTO = new UserIDLessDTO (USER, PASS, EMAIL);
         User user = userMapper.idLessDTOToModel(userIDLessDTO);
         assertThrows(NotFoundException.class, () -> userService.getUserByEmail(BADEMAIL));
     }
-
-//    @Test
-//    void verify_email_success() throws NotFoundException {
-//
-//            UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
-//            UserIDLessDTO userIDLessDTO = new UserIDLessDTO (USER, PASS, EMAIL);
-//            User user = userMapper.idLessDTOToModel(userIDLessDTO);
-//            assertEquals(user, userService.getUserByEmail(loginUser.getEmail()));
-//    }
 
 }

@@ -105,6 +105,12 @@ class AuthServiceApplicationTests {
 	}
 
 	@Test
+	@DisplayName("Map null to userdto")
+	void map_null_to_userDTO() {
+		assertNull(userMapper.idLessUsernameLessToModel(null));
+	}
+
+	@Test
 	@DisplayName("User setters")
 	void user_setters() {
 

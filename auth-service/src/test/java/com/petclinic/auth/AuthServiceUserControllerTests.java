@@ -59,6 +59,8 @@ public class AuthServiceUserControllerTests {
 
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
     private UserMapper userMap;
 
     @Autowired
@@ -122,12 +124,15 @@ public class AuthServiceUserControllerTests {
 
 
     }
-//    @Test
-//    void verifyUser_true () throws NotFoundException {
-//        UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
-//        assertTrue(userController.verifyUser(loginUser));
-//    }
     @Test
+    @DisplayName("Check that user exists")
+    void verifyUser_true () throws NotFoundException {
+        UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(EMAIL, PASS);
+        userRepo.save(userMap.idLessUsernameLessToModel(loginUser).toBuilder().username("username").build());
+        assertTrue(userController.verifyUser(loginUser));
+    }
+    @Test
+    @DisplayName("Check user that does not exist")
     void verifyUser_false (){
         UserIDLessUsernameLessDTO loginUser = new UserIDLessUsernameLessDTO(BADEMAIL, PASS);
         assertThrows(NotFoundException.class, () -> userController.verifyUser(loginUser));
