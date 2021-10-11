@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -55,7 +56,6 @@ public class VisitsServiceClient {
     }
 
 
-
     public Flux<VisitDetails> getVisitsForPet(final int petId){
         return webClientBuilder.build()
                 .get()
@@ -63,6 +63,23 @@ public class VisitsServiceClient {
                 .retrieve()
                 .bodyToFlux(VisitDetails.class);
     }
+
+    public Flux<VisitDetails> getPreviousVisitsForPet(final int petId) {
+        return webClientBuilder.build()
+                .get()
+                .uri(hostname + "/visits/previous/{petId}", petId)
+                .retrieve()
+                .bodyToFlux(VisitDetails.class);
+    }
+
+    public Flux<VisitDetails> getScheduledVisitsForPet(final int petId) {
+        return webClientBuilder.build()
+                .get()
+                .uri(hostname + "/visits/schedule/{petId}", petId)
+                .retrieve()
+                .bodyToFlux(VisitDetails.class);
+    }
+
 /*
     public Mono<Visits> createVisitForPets(final VisitDetails visitDetails){
         return webClientBuilder.build()
